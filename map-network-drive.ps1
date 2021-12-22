@@ -38,6 +38,14 @@ if ((Get-PSDrive).Name -match "^${driveLetter}$") {
 Write-Host "Mapping '$mapSource' to ${driveLetter}:\ . . ."
 $net = new-object -ComObject WScript.Network
 $net.MapNetworkDrive("${driveLetter}:", "$mapSource", $false, "${lanDriveUser}", "${lanDrivePass}")
+if(!$?) {
+	Write-Host "Error connecting. Make sure Lan Drive is running."
+	Exit 1
+} else {
+	Write-Host "Successfully mapped to ${driveLetter}:/"
+}
+
+# NAME THE MAPPED NETWORK DRIVE
 $rename = New-Object -ComObject Shell.Application
 $rename.NameSpace("${driveLetter}:\").Self.Name = "${driveTitle} ($mapSource)"
 
