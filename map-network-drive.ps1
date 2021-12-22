@@ -28,8 +28,7 @@ If (Test-Path -Path "${driveLetter}:\.mapped") {
 	Exit 0
 }
 
-# REMOVE EXISTING MAP IF PRESENT
-If (Test-Path -Path "${driveLetter}:\") {
+if ((Get-PSDrive).Name -match "^${driveLetter}$") {
 	Write-Host "Disconnecting existing map . . ."
 	net use ${driveLetter}: /delete /y
 	if(!$?) { Write-Host "There was an error disconnecting existing map"; Exit 1; }
