@@ -49,5 +49,10 @@ if(!$?) {
 $rename = New-Object -ComObject Shell.Application
 $rename.NameSpace("${driveLetter}:\").Self.Name = "${driveTitle} ($mapSource)"
 
+# CREATE A FILE TO DETERMINE IF MOUNTED FOR FUTURE USE
+if (!(Test-Path "${driveLetter}:\.mapped")) {
+	New-Item -path "${driveLetter}:\" -name ".mapped" -type "file" | Out-Null
+}
+
 # OPEN THE MAPPED NETWORK DRIVE
 Invoke-Item "${driveLetter}:\"
